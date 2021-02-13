@@ -60,8 +60,6 @@ jobs:
           docker push ghcr.io/${{ env.GITHUB_REPOSITORY_NAME }}/kerigo-interop:latest
           mkdir -p ${GITHUB_WORKSPACE}/cache
           touch ${GITHUB_WORKSPACE}/cache/${{ env.CACHE_KEY_INTEROP }}
-<<<<<<< HEAD
-=======
   
   interop-test:
     needs: [interop-setup, test, build-interop-image]
@@ -78,4 +76,3 @@ jobs:
           echo "pull keri test vectors ${{ matrix.actor}}-${{ matrix.subject}}"
           echo "docker pull -d keri${{ matrix.lang }}" ${{matrix.subject}}
           echo "docker pull -d keri${{ matrix.lang }}" ${{matrix.actor}}"
->>>>>>> 2ddd4a1... update
