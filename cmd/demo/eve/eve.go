@@ -1,8 +1,11 @@
 package main
 
 import (
+	"encoding/base64"
+	"encoding/json"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net"
 	"os"
@@ -69,6 +72,16 @@ func main() {
 	go func(t int) {
 		select {
 		case <-time.After(time.Duration(t) * time.Second):
+			b, err := json.Marshal(kerl.KEL())
+			if err != nil {
+				panic(err)
+			}
+
+			err = ioutil.WriteFile("eve-demo.out", []byte(base64.StdEncoding.EncodeToString(b)), 0644)
+			if err != nil {
+				panic(err)
+			}
+
 			os.Exit(0)
 		}
 	}(*e)

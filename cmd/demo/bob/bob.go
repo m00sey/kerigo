@@ -1,8 +1,11 @@
 package main
 
 import (
+	"encoding/base64"
+	"encoding/json"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"time"
 
@@ -101,6 +104,16 @@ func main() {
 
 	select {
 	case <-time.After(time.Duration(*e) * time.Second):
+		b, err := json.Marshal(kerl.KEL())
+		if err != nil {
+			panic(err)
+		}
+
+		err = ioutil.WriteFile("bob-demo.out", []byte(base64.StdEncoding.EncodeToString(b)), 0644)
+		if err != nil {
+			panic(err)
+		}
+
 		os.Exit(0)
 	}
 }
