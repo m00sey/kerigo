@@ -74,5 +74,5 @@ jobs:
       - name: run interop
         run: | 
           echo "pull keri test vectors ${{ matrix.actor}}-${{ matrix.subject}}"
-          echo "docker pull -d keri${{ matrix.lang }}" ${{matrix.subject}}
-          echo "docker pull -d keri${{ matrix.lang }}" ${{matrix.actor}}"
+          echo "docker pull -d keri${{ matrix.lang }} ${{matrix.subject}}""
+          echo "docker pull -d keri${{ matrix.lang }} ${{matrix.actor}}"
