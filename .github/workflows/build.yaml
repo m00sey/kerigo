@@ -94,8 +94,8 @@ jobs:
     strategy:
       matrix:
         direct-mode-cfg:
-        - { actor-lang: go, actor: bob, companion-lang: go, companion: eve, assert: $env.BOBEVE_EVE }
-        - { actor-lang: go, actor: sam, companion-lang: go, companion: eve, assert: $env.SAMEVE_EVE }
+        - { actor-lang: go, actor: bob, companion-lang: go, companion: eve, assert: ${{ env.BOBEVE_EVE}} }
+        - { actor-lang: go, actor: sam, companion-lang: go, companion: eve, assert: ${{ env.SAMEVE_EVE}} }
         # - { actor-lang: go, actor: bob, companion-lang: py, companion: eve}
         # - { actor-lang: go, actor: sam, companion-lang: py, companion: eve}
         # - { actor-lang: py, actor: bob, companion-lang: go, companion: eve}
