@@ -61,7 +61,7 @@ jobs:
           mkdir -p ${GITHUB_WORKSPACE}/cache
           touch ${GITHUB_WORKSPACE}/cache/${{ env.CACHE_KEY_INTEROP }}
   
-cache-test-vectors:
+  cache-test-vectors:
     runs-on: ubuntu-20.04
     outputs:
       BOBEVE_BOB: ${{ steps.cache.outputs.BOBEVE_BOB }}
