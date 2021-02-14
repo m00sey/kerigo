@@ -74,8 +74,13 @@ jobs:
         # - { actor-lang: py, actor: bob, companion-lang: go, companion: eve}
         # - { actor-lang: py, actor: sam, companion-lang: go, companion: eve}
     steps:
-      - name: run interop
-        run: | 
-          echo "pull keri test vectors ${{ matrix.actor }}-${{ matrix.companion }}"
-          echo "docker pull -d keri${{ matrix.actor-lang }} ${{ matrix.actor }}"
-          echo "docker pull -d keri${{ matrix.companion-lang }} ${{ matrix.companion }}"
+    - name: Checkout KERI
+      uses: actions/checkout@v2
+      with:
+        repository: decentralized-identity/keri
+        path: keri
+    - name: run interop
+      run: | 
+        echo "pull keri test vectors ${{ matrix.actor }}-${{ matrix.companion }}"
+        echo "docker pull -d keri${{ matrix.actor-lang }} ${{ matrix.actor }}"
+        echo "docker pull -d keri${{ matrix.companion-lang }} ${{ matrix.companion }}"
