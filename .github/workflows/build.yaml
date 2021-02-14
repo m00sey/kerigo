@@ -61,41 +61,41 @@ jobs:
           mkdir -p ${GITHUB_WORKSPACE}/cache
           touch ${GITHUB_WORKSPACE}/cache/${{ env.CACHE_KEY_INTEROP }}
   
-  # cache-test-vectors:
-  #   runs-on: ubuntu-20.04
-  #   outputs:
-  #     BOBEVE_BOB: ${{ steps.cache.outputs.BOBEVE_BOB }}
-  #     BOBEVE_EVE: ${{ steps.cache.outputs.BOBEVE_EVE }}
-  #     SAMEVE_SAM: ${{ steps.cache.outputs.SAMEVE_SAM }}
-  #     SAMEVE_EVE: ${{ steps.cache.outputs.SAMEVE_EVE }}
-  #   steps:
-  #   - name: Checkout KERI
-  #     uses: actions/checkout@v2
-  #     with:
-  #       repository: m00sey/keri
-  #       ref: keri-automated-interop
-  #       path: keri
-  #   - name: Set outputs
-  #     id: cache
-  #     run: |
-  #       echo "::set-output name=BOBEVE_BOB::$(cat keri/test_vectors/bob-eve/bob.out )"
-  #       echo "::set-output name=BOBEVE_EVE::$(cat keri/test_vectors/bob-eve/eve.out )"
-  #       echo "::set-output name=SAMEVE_SAM::$(cat keri/test_vectors/sam-eve/sam.out )"
-  #       echo "::set-output name=SAMEVE_EVE::$(cat keri/test_vectors/sam-eve/eve.out )"
+  cache-test-vectors:
+    runs-on: ubuntu-20.04
+    outputs:
+      BOBEVE_BOB: ${{ steps.cache.outputs.BOBEVE_BOB }}
+      BOBEVE_EVE: ${{ steps.cache.outputs.BOBEVE_EVE }}
+      SAMEVE_SAM: ${{ steps.cache.outputs.SAMEVE_SAM }}
+      SAMEVE_EVE: ${{ steps.cache.outputs.SAMEVE_EVE }}
+    steps:
+    - name: Checkout KERI
+      uses: actions/checkout@v2
+      with:
+        repository: m00sey/keri
+        ref: keri-automated-interop
+        path: keri
+    - name: Set outputs
+      id: cache
+      run: |
+        echo "::set-output name=BOBEVE_BOB::$(cat keri/test_vectors/bob-eve/bob.out )"
+        echo "::set-output name=BOBEVE_EVE::$(cat keri/test_vectors/bob-eve/eve.out )"
+        echo "::set-output name=SAMEVE_SAM::$(cat keri/test_vectors/sam-eve/sam.out )"
+        echo "::set-output name=SAMEVE_EVE::$(cat keri/test_vectors/sam-eve/eve.out )"
 
   interop-test:
     needs: [build-interop-image]
     runs-on: ubuntu-20.04
-    # env:
-      # BOBEVE_BOB: ${{ needs.cache-test-vectors.outputs.BOBEVE_BOB }}
-      # BOBEVE_EVE: ${{ needs.cache-test-vectors.outputs.BOBEVE_EVE }}
-      # SAMEVE_SAM: ${{ needs.cache-test-vectors.outputs.SAMEVE_SAM }}
-      # SAMEVE_EVE: ${{ needs.cache-test-vectors.outputs.SAMEVE_EVE }}
+    env:
+      BOBEVE_BOB: ${{ needs.cache-test-vectors.outputs.BOBEVE_BOB }}
+      BOBEVE_EVE: ${{ needs.cache-test-vectors.outputs.BOBEVE_EVE }}
+      SAMEVE_SAM: ${{ needs.cache-test-vectors.outputs.SAMEVE_SAM }}
+      SAMEVE_EVE: ${{ needs.cache-test-vectors.outputs.SAMEVE_EVE }}
     strategy:
       matrix:
         direct-mode-cfg:
-        - { actor-lang: go, actor: bob, companion-lang: go, companion: eve }
-        - { actor-lang: go, actor: sam, companion-lang: go, companion: eve }
+        - { actor-lang: go, actor: bob, companion-lang: go, companion: eve, assert: $env.BOBEVE_EVE }
+        - { actor-lang: go, actor: sam, companion-lang: go, companion: eve, assert: $env.SAMEVE_EVE }
         # - { actor-lang: go, actor: bob, companion-lang: py, companion: eve}
         # - { actor-lang: go, actor: sam, companion-lang: py, companion: eve}
         # - { actor-lang: py, actor: bob, companion-lang: go, companion: eve}
@@ -105,3 +105,4 @@ jobs:
       run: | 
         echo "docker pull -d keri${{ matrix.direct-mode-cfg.actor-lang }} ${{ matrix.direct-mode-cfg.actor }}"
         echo "docker pull -d keri${{ matrix.direct-mode-cfg.companion-lang }} ${{ matrix.direct-mode-cfg.companion }}"
+        echo "${{ matrix.direct-mode-cfg.assert }}"
