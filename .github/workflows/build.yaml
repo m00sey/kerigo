@@ -86,7 +86,7 @@ jobs:
   interop-test:
     needs: [build-interop-image]
     runs-on: ubuntu-20.04
-    env:
+    # env:
       # BOBEVE_BOB: ${{ needs.cache-test-vectors.outputs.BOBEVE_BOB }}
       # BOBEVE_EVE: ${{ needs.cache-test-vectors.outputs.BOBEVE_EVE }}
       # SAMEVE_SAM: ${{ needs.cache-test-vectors.outputs.SAMEVE_SAM }}
