@@ -69,10 +69,10 @@ jobs:
         direct-mode-cfg:
         - { actor-lang: go, actor: bob, companion-lang: go, companion: eve}
         - { actor-lang: go, actor: sam, companion-lang: go, companion: eve}
-        - { actor-lang: go, actor: bob, companion-lang: py, companion: eve}
-        - { actor-lang: go, actor: sam, companion-lang: py, companion: eve}
-        - { actor-lang: py, actor: bob, companion-lang: go, companion: eve}
-        - { actor-lang: py, actor: sam, companion-lang: go, companion: eve}
+        # - { actor-lang: go, actor: bob, companion-lang: py, companion: eve}
+        # - { actor-lang: go, actor: sam, companion-lang: py, companion: eve}
+        # - { actor-lang: py, actor: bob, companion-lang: go, companion: eve}
+        # - { actor-lang: py, actor: sam, companion-lang: go, companion: eve}
     steps:
       - name: run interop
         run: | 
