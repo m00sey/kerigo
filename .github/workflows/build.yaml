@@ -61,18 +61,11 @@ jobs:
           mkdir -p ${GITHUB_WORKSPACE}/cache
           touch ${GITHUB_WORKSPACE}/cache/${{ env.CACHE_KEY_INTEROP }}
   
-  interop-test:
-    needs: [interop-setup, test, build-interop-image]
+cache-test-vectors:
     runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        direct-mode-cfg:
-        - { actor-lang: go, actor: bob, companion-lang: go, companion: eve}
-        - { actor-lang: go, actor: sam, companion-lang: go, companion: eve}
-        # - { actor-lang: go, actor: bob, companion-lang: py, companion: eve}
-        # - { actor-lang: go, actor: sam, companion-lang: py, companion: eve}
-        # - { actor-lang: py, actor: bob, companion-lang: go, companion: eve}
-        # - { actor-lang: py, actor: sam, companion-lang: go, companion: eve}
+    outputs:
+      BOB_EVE: ${{ steps.cache.outputs.BOB_EVE }}
+      SAM_EVE: ${{ steps.cache.outputs.SAM_EVE }}
     steps:
     - name: Checkout KERI
       uses: actions/checkout@v2
@@ -80,13 +73,35 @@ jobs:
         repository: m00sey/keri
         ref: keri-automated-interop
         path: keri
-
-    - name: load test vectors
+    - name: Set outputs
+      id: cache
       run: |
-         cat keri/test_vectors/bob-eve/bob.out 
+        echo "::set-output name=BOBEVE_BOB::$(cat keri/test_vectors/bob-eve/bob.out )"
+        echo "::set-output name=BOBEVE_EVE::$(cat keri/test_vectors/bob-eve/eve.out )"
+        echo "::set-output name=SAMEVE_SAM::$(cat keri/test_vectors/sam-eve/sam.out )"
+        echo "::set-output name=SAMEVE_EVE::$(cat keri/test_vectors/sam-eve/eve.out )"
+
+  interop-test:
+    needs: [build-interop-image, cache-test-vectors]
+    runs-on: ubuntu-20.04
+    env:
+      BOBEVE_BOB: ${{ needs.interop-setup.outputs.BOBEVE_BOB }}
+      BOBEVE_EVE: ${{ needs.interop-setup.outputs.BOBEVE_EVE }}
+      SAMEVE_SAM: ${{ needs.interop-setup.outputs.SAMEVE_SAM }}
+      SAMEVE_EVE: ${{ needs.interop-setup.outputs.SAMEVE_EVE }}
+    strategy:
+      matrix:
+        direct-mode-cfg:
+        - { actor-lang: go, actor: bob, companion-lang: go, companion: eve, assert: $env.BOBEVE_BOB }
+        - { actor-lang: go, actor: sam, companion-lang: go, companion: eve}
+        # - { actor-lang: go, actor: bob, companion-lang: py, companion: eve}
+        # - { actor-lang: go, actor: sam, companion-lang: py, companion: eve}
+        # - { actor-lang: py, actor: bob, companion-lang: go, companion: eve}
+        # - { actor-lang: py, actor: sam, companion-lang: go, companion: eve}
 
     - name: run interop
       run: | 
         echo "pull keri test vectors ${{ matrix.actor }}-${{ matrix.companion }}"
         echo "docker pull -d keri${{ matrix.actor-lang }} ${{ matrix.actor }}"
         echo "docker pull -d keri${{ matrix.companion-lang }} ${{ matrix.companion }}"
+        echo "test against ${{ matrix.assert }}"
