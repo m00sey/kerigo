@@ -77,7 +77,6 @@ jobs:
     - name: Set outputs
       id: cache
       run: |
-        cat test_vectors/bob-eve/bob.out 
         echo "::set-output name=BOBEVE_BOB::$(cat test_vectors/bob-eve/bob.out )"
         echo "::set-output name=BOBEVE_EVE::$(cat test_vectors/bob-eve/eve.out )"
         echo "::set-output name=SAMEVE_SAM::$(cat test_vectors/sam-eve/sam.out )"
