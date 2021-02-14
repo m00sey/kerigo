@@ -103,5 +103,5 @@ jobs:
     steps:
     - name: run interop
       run: | 
-        echo "docker pull -d keri${{ matrix.actor-lang }} ${{ matrix.actor }}"
-        echo "docker pull -d keri${{ matrix.companion-lang }} ${{ matrix.companion }}"
+        echo "docker pull -d keri${{ matrix.direct-mode-cfg.actor-lang }} ${{ matrix.direct-mode-cfg.actor }}"
+        echo "docker pull -d keri${{ matrix.direct-mode-cfg.companion-lang }} ${{ matrix.direct-mode-cfg.companion }}"
