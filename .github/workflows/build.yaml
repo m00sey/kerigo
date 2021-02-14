@@ -64,8 +64,10 @@ jobs:
 cache-test-vectors:
     runs-on: ubuntu-20.04
     outputs:
-      BOB_EVE: ${{ steps.cache.outputs.BOB_EVE }}
-      SAM_EVE: ${{ steps.cache.outputs.SAM_EVE }}
+      BOBEVE_BOB: ${{ steps.cache.outputs.BOBEVE_BOB }}
+      BOBEVE_EVE: ${{ steps.cache.outputs.BOBEVE_EVE }}
+      SAMEVE_SAM: ${{ steps.cache.outputs.SAMEVE_SAM }}
+      SAMEVE_EVE: ${{ steps.cache.outputs.SAMEVE_EVE }}
     steps:
     - name: Checkout KERI
       uses: actions/checkout@v2
@@ -93,7 +95,7 @@ cache-test-vectors:
       matrix:
         direct-mode-cfg:
         - { actor-lang: go, actor: bob, companion-lang: go, companion: eve, assert: $env.BOBEVE_BOB }
-        - { actor-lang: go, actor: sam, companion-lang: go, companion: eve}
+        - { actor-lang: go, actor: sam, companion-lang: go, companion: eve, assert: $env.BOBEVE_EVE }
         # - { actor-lang: go, actor: bob, companion-lang: py, companion: eve}
         # - { actor-lang: go, actor: sam, companion-lang: py, companion: eve}
         # - { actor-lang: py, actor: bob, companion-lang: go, companion: eve}
