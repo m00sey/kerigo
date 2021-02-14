@@ -94,8 +94,8 @@ jobs:
     strategy:
       matrix:
         direct-mode-cfg:
-        - { actor-lang: go, actor: bob, companion-lang: go, companion: eve, assert: ${{ env.BOBEVE_EVE}} }
-        - { actor-lang: go, actor: sam, companion-lang: go, companion: eve, assert: ${{ env.SAMEVE_EVE}} }
+        - { actor-lang: go, actor: bob, companion-lang: go, companion: eve}
+        - { actor-lang: go, actor: sam, companion-lang: go, companion: eve}
         # - { actor-lang: go, actor: bob, companion-lang: py, companion: eve}
         # - { actor-lang: go, actor: sam, companion-lang: py, companion: eve}
         # - { actor-lang: py, actor: bob, companion-lang: go, companion: eve}
@@ -105,4 +105,4 @@ jobs:
       run: | 
         echo "docker pull -d keri${{ matrix.direct-mode-cfg.actor-lang }} ${{ matrix.direct-mode-cfg.actor }}"
         echo "docker pull -d keri${{ matrix.direct-mode-cfg.companion-lang }} ${{ matrix.direct-mode-cfg.companion }}"
-        echo "${{ matrix.direct-mode-cfg.assert }}"
+        echo "${{ env.BOBEVE_EVE }}"
