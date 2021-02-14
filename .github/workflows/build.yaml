@@ -83,7 +83,7 @@ jobs:
         echo "::set-output name=SAMEVE_EVE::$(cat test_vectors/sam-eve/eve.out )"
 
   interop-test:
-    needs: [build-interop-image]
+    needs: [build-interop-image, cache-test-vectors-vectors]
     runs-on: ubuntu-20.04
     env:
       BOBEVE_BOB: ${{ needs.cache-test-vectors.outputs.BOBEVE_BOB }}
