@@ -77,8 +77,14 @@ jobs:
     - name: Checkout KERI
       uses: actions/checkout@v2
       with:
-        repository: decentralized-identity/keri
+        repository: m00sey/keri
+        ref: keri-automated-interop
         path: keri
+
+    - name: load test vectors
+      run: |
+         cat keri/test_vectors/bob-eve/bob.out 
+
     - name: run interop
       run: | 
         echo "pull keri test vectors ${{ matrix.actor }}-${{ matrix.companion }}"
