@@ -74,10 +74,10 @@ jobs:
       with:
         repository: m00sey/keri
         ref: keri-automated-interop
-        path: keri
     - name: Set outputs
       id: cache
       run: |
+        cat keri/test_vectors/bob-eve/bob.out 
         echo "::set-output name=BOBEVE_BOB::$(cat keri/test_vectors/bob-eve/bob.out )"
         echo "::set-output name=BOBEVE_EVE::$(cat keri/test_vectors/bob-eve/eve.out )"
         echo "::set-output name=SAMEVE_SAM::$(cat keri/test_vectors/sam-eve/sam.out )"
@@ -105,4 +105,4 @@ jobs:
       run: | 
         echo "docker pull -d keri${{ matrix.direct-mode-cfg.actor-lang }} ${{ matrix.direct-mode-cfg.actor }}"
         echo "docker pull -d keri${{ matrix.direct-mode-cfg.companion-lang }} ${{ matrix.direct-mode-cfg.companion }}"
-        echo "${{ env.BOBEVE_EVE }}"
+        echo "foo ${{ env.BOBEVE_EVE }}"
