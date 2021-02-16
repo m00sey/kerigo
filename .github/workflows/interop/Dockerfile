@@ -6,7 +6,7 @@ WORKDIR /root/kerigo
 
 COPY ./scripts/*.sh .
 
-RUN chmod +x *sh
+RUN chmod +x *.sh
 
 RUN go build -o bob cmd/demo/bob/bob.go
 RUN go build -o eve cmd/demo/eve/eve.go
