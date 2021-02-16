@@ -102,6 +102,5 @@ jobs:
     steps:
     - name: run interop
       run: | 
-        echo "docker pull -d keri${{ matrix.direct-mode-cfg.actor-lang }} ${{ matrix.direct-mode-cfg.actor }}"
-        echo "docker pull -d keri${{ matrix.direct-mode-cfg.companion-lang }} ${{ matrix.direct-mode-cfg.companion }}"
-        echo "foo ${{ env.BOBEVE_EVE }}"
+        docker run -d -p 5620-5621 --name keri${{ matrix.direct-mode-cfg.actor-lang }}-${{ matrix.direct-mode-cfg.actor }} ghcr.io/m00sey/keri${{ matrix.direct-mode-cfg.actor-lang }}/keri${{ matrix.direct-mode-cfg.actor-lang }}-interop bash -c './run_${{ matrix.direct-mode-cfg.actor }}.sh'
+        docker run -d -p 5620-5621 --name keri${{ matrix.direct-mode-cfg.companion-lang }}-${{ matrix.direct-mode-cfg.companion }} ghcr.io/m00sey/keri${{ matrix.direct-mode-cfg.companion-lang }}/keri${{ matrix.direct-mode-cfg.companion-lang }}-interop bash -c './run_${{ matrix.direct-mode-cfg.companion-lang }}.sh'
