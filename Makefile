@@ -7,15 +7,15 @@ test:
 
 .PHONY: interop-bob
 interop-bob:
-	@docker run --rm -i -p 5620-5621 --name kerigo-bob ghcr.io/decentralized-identity/kerigo/kerigo-interop bash -c './bob'
+	@docker run --rm -i -p 5620-5621 --name kerigo-bob ghcr.io/decentralized-identity/kerigo/kerigo-interop bash -c './bob -e 10'
 
 .PHONY: interop-eve
 interop-eve:
-	@docker run --rm -i -p 5620-5621 --name kerigo-eve ghcr.io/decentralized-identity/kerigo/kerigo-interop bash -c './eve'
+	@docker run --rm -i -p 5620-5621 --name kerigo-eve ghcr.io/decentralized-identity/kerigo/kerigo-interop bash -c './eve -e 10'
 
 .PHONY: interop-sam
 interop-sam:
-	@docker run --rm -i -p 5620-5621 --name kerigo-sam ghcr.io/decentralized-identity/kerigo/kerigo-interop bash -c './sam'
+	@docker run --rm -i -p 5620-5621 --name kerigo-sam ghcr.io/decentralized-identity/kerigo/kerigo-interop bash -c './sam -e 10'
 
 ACTORS = bob eve sam
 .PHONY: demos
